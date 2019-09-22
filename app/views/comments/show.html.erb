@@ -6,4 +6,6 @@
 </p>
 
 <%= link_to 'Edit', edit_comment_path(@comment) %> |
+
 <%= link_to 'Back', comments_path %>
+<%= link_to "Delete", comments_path(@comment), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default" %>
