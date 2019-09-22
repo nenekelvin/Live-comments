@@ -1,4 +1,4 @@
-addComment = (data) ->
+ addComment = (data) ->
       $('#comments').append """
       <div class="col-6 offset-3">
         <div class="comment-wrap">
@@ -21,6 +21,12 @@ addComment = (data) ->
     $ ->
       $('#add_comment').on 'ajax:success', (data) ->
         $('#add_comment')[0].reset()
-        addComment data.detail[0]
         return
+      pusher = new Pusher('<%= ENV["PUSHER_KEY"] %>',
+        cluster: '<%= ENV["PUSHER_CLUSTER"] %>'
+        encrypted: true)
+      channel = pusher.subscribe('comment')
+      channel.bind 'new', (data) ->
+          addComment data
+          return
       return
